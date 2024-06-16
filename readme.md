@@ -11,11 +11,10 @@ We introduce **Self-Powered LSM**, a system that leverages self-powered data to 
 
 ## Speech Instructional Dataset
 
-We use Vicuna as the backbone LLM to generate our dataset. To utilize this dataset, download Librispeech-960, Common Voice 4.0, and Gigaspeech-l, and place them in `/data`. You can find the JSONL file at:
+We use Vicuna as the backbone LLM to generate our dataset. To utilize this dataset, download Librispeech-960, Common Voice 4.0, and Gigaspeech-l, and place them in `/data`.
 
-```
-./self-powered/data/final1_shuffle.jsonl
-```
+ You can find the JSONL file at  [Here](https://drive.google.com/file/d/1vrq9hA5dSLEv-_6Qm9kzHdbrxGjIXlng/view)
+
 Additionally, you can generate your own self-powered data by running:
 
  ```
