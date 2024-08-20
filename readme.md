@@ -9,12 +9,11 @@ Tengfei Yu, Xuebo Liu, Zhiyi Hou, Liang Ding, Dacheng Tao, Min Zhang
 
 **Nanyang Technological University**
 
-<a href='https://github.com/ytf-philp/Self-powered-LSM'><img src='https://img.shields.io/badge/Project-Page-Green'></a>  <a href=''><img src='https://img.shields.io/badge/Paper-Arxiv-red'> </a>  <a href=''><img src='https://img.shields.io/badge/SALMONN_13B-Demo-blue'></a>
-<a href=''><img src='https://img.shields.io/badge/SALMONN_7B-Demo-orange'></a>
+<a href='https://github.com/ytf-philp/Self-powered-LSM'><img src='https://img.shields.io/badge/Project-Page-Green'></a>  <a href=''><img src='https://img.shields.io/badge/Paper-Arxiv-red'> </a>  
 
 ## 👀 Overview
 
-We introduce **Self-Powered LSM**, a system that leverages self-powered data to enhance the speech modality capabilities of Large Language Models (LLMs).
+We introduce **Self-Powered LSM**, a Large Speech-Text Model that leverages self-powered data to enhance the speech modality capabilities of Large Language Models.
 
 <div align="left">
   <img src="https://github.com/ytf-philp/Self-powered-LSM/blob/master/fig/image.png" width="70%">
@@ -23,8 +22,8 @@ We introduce **Self-Powered LSM**, a system that leverages self-powered data to 
 
 ## 🔥 News
 
-- [2023-10-08] ✨ We have released [**the model checkpoint**](https://huggingface.co/tsinghua-ee/SALMONN)!
-- [2024-04-07] 🤖 We have released all the codes you need to train your own self-powered LSM!
+- [2024-08-25] ✨ We have released [**the model checkpoint**]()!
+- [2024-08-20] 🤖 We have released all the codes you need to train your own self-powered LSM!
 
 
 ## Speech Instructional Dataset
@@ -41,9 +40,9 @@ Additionally, you can generate your own self-powered data by running:
 
 ### 🌟 Structure
 
-The model architecture of Self-Powered LSM is shown below. A window-level Q-Former is used as the connection module to fuse the outputs from a Whisper speech encoder and a BEATs audio encoder as augmented audio tokens, which are aligned with the LLM input space. Text prompt is used to instruct SALMONN to answer open-ended questions about the general audio inputs and the answers are in the LLM text responses. 
+The model architecture of the Self-Powered LSM is depicted as follows: A window-level Q-Former serves as the connecting module, integrating outputs from the Whisper speech encoder as enhanced audio tokens. These tokens are aligned with the input space of the LLM. A text prompt guides the LSM to address open-ended questions concerning general audio inputs, with responses generated in LLM text format. 
 
-<div align=center><img src="resource/structure.png" height="100%" width="75%"/></div>
+<div align=center><img src="fig/main.png" height="100%" width="75%"/></div>
 
 ### 🚀 Train Self-Powered LSM
 
