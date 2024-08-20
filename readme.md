@@ -42,7 +42,7 @@ Additionally, you can generate your own self-powered data by running:
 
 The model architecture of the Self-Powered LSM is depicted as follows: A window-level Q-Former serves as the connecting module, integrating outputs from the Whisper speech encoder as enhanced audio tokens. These tokens are aligned with the input space of the LLM. A text prompt guides the LSM to address open-ended questions concerning general audio inputs, with responses generated in LLM text format. 
 
-<div align=center><img src="fig/main.png" height="40%" width="40%"/></div>
+<div align=left><img src="fig/main.png" height="40%" width="35%"/></div>
 
 ### 🚀 Train Self-Powered LSM
 
