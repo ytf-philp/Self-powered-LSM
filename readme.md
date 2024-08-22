@@ -22,7 +22,6 @@ We introduce **Self-Powered LSM**, a Large Speech-Text Model that leverages self
 
 ## 🔥 News
 
-- [2024-08-25] ✨ We have released [**the model checkpoint**]()!
 - [2024-08-20] 🤖 We have released all the codes you need to train your own self-powered LSM!
 
 
