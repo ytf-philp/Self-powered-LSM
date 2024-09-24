@@ -12,7 +12,7 @@ SAVE_PATH=$3
 # 执行Python脚本
 python -m torch.distributed.run  --nproc_per_node=4 \
     --master_port=21572 \
-    /self-powered/scripts/train_stage0_evaluate_asr.py \
+    self-powered/scripts/train_stage0_evaluate_asr.py \
     --data $DATA \
     --save_path $SAVE_PATH \
     --overwrite_output_dir \

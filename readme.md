@@ -24,7 +24,7 @@ Tengfei Yu, Xuebo Liu, Zhiyi Hou, Liang Ding, Dacheng Tao, Min Zhang
 
 
 ## 🔥 News
-- [2024-09-23] 🎁 We have released **Self-Powered LSM** with whisper-large as encoder and vicuna-7B-v1.5 as LLM at [tsinghua-ee/SALMONN-7B](https://huggingface.co/tsinghua-ee/SALMONN-7B) and built the 7B demo [here](https://huggingface.co/spaces/tsinghua-ee/SALMONN-7B-gradio)!
+- [2024-09-23] 🎁 We have released **Self-Powered LSM** with whisper-large as encoder and vicuna-7B-v1.5 as LLM at [philip-xxf/LSM-7B-whisper-large](https://huggingface.co/tsinghua-ee/SALMONN-7B) !
 - [2024-08-20] 🤖 Release of all necessary code for training your own Self-Powered LSM!
 
 
@@ -128,14 +128,30 @@ bash self-powered/scripts/vicuna_large_sft.sh
 ```
 
 **Evaluation**
+Place the evluation dataset into `evaluate` folder. You can evaluate the model using a batchsize, for example, for ASR
+```
+evaluate
+|- LibriSpeech
+    |- test-clean
+    |- test-other
+    |- test_clean.json
+    |- test_other.json
+```
 
-you can evaluate the model with batchsize, for asr as a example
 * Tokenize the evaluation dataset
 ```
-python ./self-powered/src/evaluate_token_asr.py
+python self-powered/src/evaluate_token_asr.py \
+    --dataroot data/process \
+    --manifest_files librispeech_asr \
+    --lm_path model/vicuna-7b-v1.5 \
+    --data_files evaluate/Librispeech/test_clean.json \
+    --num_proc 16 \
 ``` 
 * Inference
 ```
+export $DATA='your tokenized dataset'
+export $MODEL='the model you trained'
+export $SAVE_PATH='the folder for saving answer'
 bash self-powered/scripts/inference_ASR.sh $DATA $MODEL $SAVE_PATH
 ``` 
 

@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union, BinaryIO
 import fire
 import soundfile as sf
-
+import argparse
 import numpy as np
 import torch
 import random
@@ -71,6 +71,7 @@ def load_speech_text_paired_dataset(
     tokenizer=None,
     instruction="Provide the English text corresponding to the speech",
     num_proc=1,
+    data_files = ''
 ):
     if os.path.exists(os.path.join(dataroot, f"processed_{manifest_files}".replace("*", "all"))):
         logger.warning("load processed dataset")
@@ -79,7 +80,7 @@ def load_speech_text_paired_dataset(
     
     logger.warning(f"load dataset from scratch from {dataroot}/{manifest_files}")
 
-    dataset = datasets.load_dataset('json', data_files="/self-powered/evaluate/LibriSpeech/test_small.json",split="train")
+    dataset = datasets.load_dataset('json', data_files=data_files, split="train")
     dataset = dataset.map(
         process_dataset,
         fn_kwargs={
@@ -257,11 +258,11 @@ class SpeechTextPairedDataCollator:
 
 
 def offline_process(
-    dataroot="/self-powered/data/process",
-    manifest_files="librispeech_test_small_small",
-    lm_path="/self-powered/model/vicuna-7b-v1.5",
-    instruction="Continue the following text in a coherent and engaging style with less than 50 words.",
-    num_proc=8,
+    dataroot="/data/ytf/speech_llm/data/process",
+    manifest_files="sft_lirispeech_100000",
+    lm_path="/data/ytf/speech_llm/blsp-main-new/blsp/vicuna-7b-v1.5",
+    data_files = "",
+    num_proc=16,
 ):
     text_tokenizer = LlamaTokenizer.from_pretrained(lm_path)
 
@@ -269,8 +270,8 @@ def offline_process(
         dataroot,
         manifest_files,
         text_tokenizer,
-        instruction,
-        num_proc
+        num_proc,
+        data_files
     )
     for key in dataset[0].keys():
         if key != "audio_path" and key != "is_readable":
@@ -281,4 +282,19 @@ def offline_process(
 
 
 if __name__ == "__main__":
-    offline_process()
+    parser = argparse.ArgumentParser(description="Run offline processing on speech dataset")
+    parser.add_argument("--dataroot", type=str, default="/data/ytf/speech_llm/data/process", help="Root directory for tokenized dataset")
+    parser.add_argument("--manifest_files", type=str, default="sft_lirispeech_100000", help="Manifest file name")
+    parser.add_argument("--lm_path", type=str, default="/data/ytf/speech_llm/blsp-main-new/blsp/vicuna-7b-v1.5", help="Path to language model")
+    parser.add_argument("--data_files", type=str, default="", help="speech instructional data files")
+    parser.add_argument("--num_proc", type=int, default=16, help="Number of processes")
+
+    args = parser.parse_args()
+
+    offline_process(
+        dataroot=args.dataroot,
+        manifest_files=args.manifest_files,
+        lm_path=args.lm_path,
+        data_files=args.data_files,
+        num_proc=args.num_proc
+    )
