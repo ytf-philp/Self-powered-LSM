@@ -3,19 +3,19 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-python /self-powered/src/data_process/new_augment/asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 0 > /self-powered/src/data_process/new_augment/log/repeat1.log 2<&1 &
+python asr_text_generation_unified_continue.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 0 > /self-powered/src/data_process/new_augment/log/repeat1.log 2<&1 &
 
 export CUDA_VISIBLE_DEVICES=1
 
-python /self-powered/src/data_process/new_augment/asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 1 > /self-powered/src/data_process/new_augment/log/repeat2.log 2<&1 &
+python asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 1 > /self-powered/src/data_process/new_augment/log/repeat2.log 2<&1 &
 
 export CUDA_VISIBLE_DEVICES=2
 
-python /self-powered/src/data_process/new_augment/asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 2 > /self-powered/src/data_process/new_augment/log/repeat3.log 2<&1 &
+python asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 2 > /self-powered/src/data_process/new_augment/log/repeat3.log 2<&1 &
 
 export CUDA_VISIBLE_DEVICES=3
 
-python /self-powered/src/data_process/new_augment/asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 3 > /self-powered/src/data_process/new_augment/log/repeat4.log 2<&1 &
+python asr_text_generation_unified_repeat.py --manifest self-powered/augmentation/raw_all/output_part_repeat.jsonl --cate repeat --start 97268 --nshard 4 --rank 3 > /self-powered/src/data_process/new_augment/log/repeat4.log 2<&1 &
 
 '''
 

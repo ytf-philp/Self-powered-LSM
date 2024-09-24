@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union, BinaryIO
 import fire
 import soundfile as sf
-
+import argparse
 import numpy as np
 import torch
 import random
@@ -15,6 +15,8 @@ from transformers import LlamaTokenizer, WhisperFeatureExtractor
 
 logger = logging.getLogger(__name__)
 
+### input: ###[Human]: please translate it into English: \n ###[speech]: xxxx  \n\n\n###[Assistant]: 
+### output:  transcripts
 
 Text_Format = (
     "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. \n\n"
@@ -22,10 +24,11 @@ Text_Format = (
     "SPEECH:"
 )
 
-def process_dataset(batch, tokenizer, instruction):
+def process_dataset(batch, tokenizer):
     
     # instruction prompt
-    input = Text_Format.format(instruction=instruction)
+    
+    input = Text_Format.format(instruction=batch["instruction"])
     input_ids = tokenizer(input).input_ids
     attention_mask = [1] * len(input_ids)
     instruct_labels = [-100] * len(input_ids)
@@ -71,8 +74,8 @@ def load_speech_text_paired_dataset(
     dataroot="",
     manifest_files="",
     tokenizer=None,
-    instruction="Provide the English text corresponding to the speech",
     num_proc=1,
+    data_files = ""
 ):
     if os.path.exists(os.path.join(dataroot, f"processed_{manifest_files}".replace("*", "all"))):
         logger.warning("load processed dataset")
@@ -81,12 +84,11 @@ def load_speech_text_paired_dataset(
     
     logger.warning(f"load dataset from scratch from {dataroot}/{manifest_files}")
 
-    dataset = datasets.load_dataset('json', data_files="/self-powered/new_aug/data_aug_asr.jsonl", split='train')
+    dataset = datasets.load_dataset('json', data_files=data_files, split='train')
     dataset = dataset.map(
         process_dataset,
         fn_kwargs={
             "tokenizer": tokenizer,
-            "instruction": instruction
         },
         load_from_cache_file=False,
         num_proc=num_proc,
@@ -235,13 +237,10 @@ class SpeechTextPairedDataCollator:
         suffix_input_ids = collate_tokens(suffix_input_ids, self.pad_id)
         labels = collate_tokens(labels, -100)
         instruct_labels = collate_tokens(instruct_labels, -100)
-        raw_speech = []
-        for sample in samples:
-            if sample["audio_content"] == None:
-                raw_speech.append(get_waveform(sample["audio_path"], output_sample_rate=self.sampling_rate)) 
-            else:
-                raw_speech.append(sample["audio_content"])
 
+        raw_speech = [
+            get_waveform(sample["audio_path"], output_sample_rate=self.sampling_rate) for sample in samples
+        ]
         speech_inputs = self.extractor(
             raw_speech, 
             sampling_rate=self.sampling_rate, 
@@ -262,11 +261,11 @@ class SpeechTextPairedDataCollator:
 
 
 def offline_process(
-    dataroot="/self-powered/process",
-    manifest_files="librispeech_continue",
-    lm_path="/self-powered/model/model/vicuna-7b-v1.5",
-    instruction="Continue the following text in a coherent and engaging style with less than 50 words.",
-    num_proc=8,
+    dataroot="/data/ytf/speech_llm/data/process",
+    manifest_files="sft_lirispeech_100000",
+    lm_path="/data/ytf/speech_llm/blsp-main-new/blsp/vicuna-7b-v1.5",
+    data_files = "",
+    num_proc=16,
 ):
     text_tokenizer = LlamaTokenizer.from_pretrained(lm_path)
 
@@ -274,8 +273,8 @@ def offline_process(
         dataroot,
         manifest_files,
         text_tokenizer,
-        instruction,
-        num_proc
+        num_proc,
+        data_files
     )
     for key in dataset[0].keys():
         if key != "audio_path" and key != "is_readable":
@@ -286,4 +285,19 @@ def offline_process(
 
 
 if __name__ == "__main__":
-    offline_process()
+    parser = argparse.ArgumentParser(description="Run offline processing on speech dataset")
+    parser.add_argument("--dataroot", type=str, default="/data/ytf/speech_llm/data/process", help="Root directory for tokenized dataset")
+    parser.add_argument("--manifest_files", type=str, default="sft_lirispeech_100000", help="Manifest file name")
+    parser.add_argument("--lm_path", type=str, default="/data/ytf/speech_llm/blsp-main-new/blsp/vicuna-7b-v1.5", help="Path to language model")
+    parser.add_argument("--data_files", type=str, default="", help="speech instructional data files")
+    parser.add_argument("--num_proc", type=int, default=16, help="Number of processes")
+
+    args = parser.parse_args()
+
+    offline_process(
+        dataroot=args.dataroot,
+        manifest_files=args.manifest_files,
+        lm_path=args.lm_path,
+        data_files=args.data_files,
+        num_proc=args.num_proc
+    )

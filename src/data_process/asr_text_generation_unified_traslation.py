@@ -22,11 +22,7 @@ logging.basicConfig(
 logger = logging.getLogger("continue writing")
 
 
-#Text_Format = (
-#    "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. \n\n"
-#    "USER: {instruct} (no more than 100 words): {input} \n"
-#    "ASSISTANT:"
-#)
+
 Text_Format = (
     "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. \n\n"
     "USER: {instruct}: {input} \n"
