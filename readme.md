@@ -7,7 +7,7 @@
 
 
 <div align="center">
-<a href='https://github.com/ytf-philp/Self-powered-LSM'><img src='https://img.shields.io/badge/Project-Page-Green'></a>  <a href=''><img src='https://img.shields.io/badge/Paper-Arxiv-red'> </a>  <a href='https://huggingface.co/tsinghua-ee/SALMONN'><img src='https://img.shields.io/badge/huggingface-checkpoint-yellow'></a> 
+<a href='https://github.com/ytf-philp/Self-powered-LSM'><img src='https://img.shields.io/badge/Project-Page-Green'></a>  <a href=''><img src='https://img.shields.io/badge/Paper-Arxiv-red'> </a> 
 </div>
 
 <div align="center">
@@ -24,7 +24,7 @@ Tengfei Yu, Xuebo Liu, Zhiyi Hou, Liang Ding, Dacheng Tao, Min Zhang
 
 
 ## 🔥 News
-- [2024-09-23] 🎁 We have released **Self-Powered LSM** with whisper-large as encoder and vicuna-7B-v1.5 as LLM at [philip-xxf/LSM-7B-whisper-large](https://huggingface.co/tsinghua-ee/SALMONN-7B) !
+- [2024-09-23] 🎁 We have released **Self-Powered LSM** with whisper-large as encoder and vicuna-7B-v1.5 as LLM at [philip-xxf/LSM-7B-whisper-large](https://www.modelscope.cn/models/xxf123/LSM-7B-whisper-large) !
 - [2024-08-20] 🤖 Release of all necessary code for training your own Self-Powered LSM!
 
 
